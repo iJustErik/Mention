@@ -1,0 +1,5 @@
+/MentionSponge/.settings/*
+/MentionSponge/target/*
+/MentionSponge/*.classpath
+/MentionSponge/*.project
+/MentionSponge/*.xml
