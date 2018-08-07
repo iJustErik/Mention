@@ -17,7 +17,7 @@ import com.flowpowered.math.vector.Vector3d;
 
 @Plugin(id = "mention", name = "Mention", version = "1.0", description = "Mention players in chat!")
 public class Mention {
-
+	String messageArrayComp = null;
 	@Listener
 	public void onChatEvent(MessageChannelEvent.Chat event, @First Player usingPlayer) {
 		Text playerChat = event.getMessage();
@@ -27,7 +27,7 @@ public class Mention {
 
 			String[] segmentedMessage = message.split(" ");
 			List<Player> mentionedPlayers = new ArrayList<Player>();
-
+			
 			for (String segment : segmentedMessage) {
 
 				if (segment.startsWith("@")) {
@@ -36,6 +36,12 @@ public class Mention {
 
 					if (Sponge.getServer().getPlayer(calledPlayer).isPresent()) {
 						mentionedPlayers.add(Sponge.getServer().getPlayer(calledPlayer).get());
+						segment = segment.replace("@", "§l@");
+						segment = segment.concat("§r");
+						messageArrayComp = messageArrayComp.concat(segment);
+					}
+					else {
+						segment.replace("@" + calledPlayer, calledPlayer);
 					}
 				}
 			}
@@ -48,8 +54,7 @@ public class Mention {
 				p.sendMessage(Text.of(usingPlayer.getName() + " mentioned you in chat! :)"));
 			}
 		}
-		String formattedMessage = message.replace("@", "§l@");
-		Text sendChat = Text.of(formattedMessage);
+		Text sendChat = Text.of(messageArrayComp);
 		event.setMessage(sendChat);
 	}
 }
